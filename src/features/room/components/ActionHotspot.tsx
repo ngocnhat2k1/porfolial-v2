@@ -8,14 +8,18 @@ import styles from './Room.module.css';
 
 type Action = 'guitar' | keyof typeof objectLines;
 
-/** An object that does something in place: the guitar strums, the others make Nhật talk. */
+/** An object that does something in place: the guitar strums, the duck quacks, the others make Nhật talk. */
 export function ActionHotspot({ action, label, children }: { action: Action; label: string; children: ReactNode }) {
-  const { say, strumGuitar } = useRoom();
+  const { say, strumGuitar, quack } = useRoom();
   const [played, setPlayed] = useState(false);
 
   const run = () => {
-    if (action === 'guitar') strumGuitar();
-    else say(objectLines[action]);
+    if (action === 'guitar') {
+      strumGuitar();
+    } else {
+      if (action === 'duck') quack();
+      say(objectLines[action]);
+    }
     setPlayed(true);
   };
 

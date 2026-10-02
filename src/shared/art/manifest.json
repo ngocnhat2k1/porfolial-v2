@@ -15,9 +15,14 @@
     "h": 1400
   },
   "char-wave": {
-    "src": "/art/char-wave.b79b9442.webp",
-    "w": 540,
-    "h": 1400
+    "src": "/art/char-wave.c12c068a.webp",
+    "w": 493,
+    "h": 1400,
+    "over": {
+      "left": -27.31,
+      "top": 0.04,
+      "width": 127.16
+    }
   },
   "char-window": {
     "src": "/art/char-window.f5169784.webp",
@@ -25,9 +30,14 @@
     "h": 1327
   },
   "obj-desk": {
-    "src": "/art/obj-desk.cf4422cc.webp",
+    "src": "/art/obj-desk.48ce052a.webp",
     "w": 1400,
-    "h": 1303
+    "h": 1130
+  },
+  "obj-duck": {
+    "src": "/art/obj-duck.0036204b.webp",
+    "w": 1090,
+    "h": 1216
   },
   "obj-guitar": {
     "src": "/art/obj-guitar.9d220d7e.webp",
@@ -80,8 +90,8 @@
     "h": 1400
   },
   "scene-city": {
-    "src": "/art/scene-city.372672f3.webp",
-    "w": 2400,
-    "h": 1350
+    "src": "/art/scene-city.2a565ac4.webp",
+    "w": 4096,
+    "h": 1755
   }
 }

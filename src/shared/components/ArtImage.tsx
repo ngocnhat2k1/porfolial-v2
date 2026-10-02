@@ -12,6 +12,7 @@ export type ArtName =
   | 'scene-city'
   | 'obj-window'
   | 'obj-desk'
+  | 'obj-duck'
   | 'obj-phone'
   | 'obj-guitar'
   | 'obj-mic'
@@ -22,8 +23,13 @@ export type ArtName =
   | 'obj-plant-right'
   | 'obj-rug';
 
+type Box = { left: number; top: number; width: number };
+
 // Written by `npm run art` for every processed file in public/art.
-const processed: Partial<Record<ArtName, { src: string; w: number; h: number }>> = manifest;
+const processed: Partial<Record<ArtName, { src: string; w: number; h: number; over?: Box }>> = manifest;
+
+/** Where an alternate pose sits over its base pose, in percent of the base (OVERLAYS in scripts/process-art.mjs). */
+export const overlayBox = (name: ArtName) => processed[name]?.over;
 
 type Props = {
   name: ArtName;

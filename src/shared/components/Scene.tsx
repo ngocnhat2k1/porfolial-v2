@@ -12,14 +12,18 @@ type ViewportProps = {
   children: ReactNode;
 };
 
-/** Full-screen window onto a 16:9 illustrated stage. */
+/** Full-screen window onto an illustrated stage. */
 export function SceneViewport({ mode = 'cover', className, children }: ViewportProps) {
   return <div className={cx(styles.viewport, mode === 'explore' && styles.explore, className)}>{children}</div>;
 }
 
-/** The 16:9 canvas every layer is positioned on. Children can size text with `cqw` units. */
-export function Stage({ className, children }: { className?: string; children: ReactNode }) {
-  return <div className={cx(styles.stage, className)}>{children}</div>;
+/** The canvas every layer is positioned on, 16:9 unless its art is wider. Children can size text with `cqw` units. */
+export function Stage({ ratio, className, children }: { ratio?: number; className?: string; children: ReactNode }) {
+  return (
+    <div className={cx(styles.stage, className)} style={ratio ? ({ '--stage-ratio': ratio } as CSSProperties) : undefined}>
+      {children}
+    </div>
+  );
 }
 
 /** Position in percent of the stage. Floor objects anchor `bottom`, wall objects anchor `top`. */

@@ -52,6 +52,22 @@ export function pluckBuffer(ctx: BaseAudioContext, frequency: number, seconds = 
   return buffer;
 }
 
+/** A rubber-duck squeak: a nasal square wave that drops in pitch. */
+export function playQuack(ctx: AudioContext) {
+  const now = ctx.currentTime;
+  const voice = ctx.createOscillator();
+  const volume = ctx.createGain();
+  voice.type = 'square';
+  voice.frequency.setValueAtTime(820, now);
+  voice.frequency.exponentialRampToValueAtTime(420, now + 0.18);
+  volume.gain.setValueAtTime(0.0001, now);
+  volume.gain.exponentialRampToValueAtTime(0.12, now + 0.02);
+  volume.gain.exponentialRampToValueAtTime(0.0001, now + 0.22);
+  voice.connect(volume).connect(ctx.destination);
+  voice.start(now);
+  voice.stop(now + 0.25);
+}
+
 /** Strum the strings low to high, 30 ms apart, like a down-stroke. */
 export function playStrum(ctx: AudioContext, frequencies: readonly number[]) {
   const volume = ctx.createGain();

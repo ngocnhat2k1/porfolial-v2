@@ -112,11 +112,11 @@
 
 .notes {
   position: absolute;
-  inset: 15% 8% 13%;
+  inset: 14% 7% 12%;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   align-content: center;
-  gap: 0.7cqw;
+  gap: 0.5cqw;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -126,12 +126,13 @@
   display: grid;
   place-items: center;
   aspect-ratio: 1;
-  padding: 0.3cqw;
+  padding: 0.2cqw;
   background: #fde68a;
   box-shadow: 0.15cqw 0.2cqw 0 rgb(38 35 56 / 0.18);
   color: var(--color-ink);
-  font: 0.95cqw/1.05 var(--font-hand);
+  font: 0.8cqw/1.05 var(--font-hand);
   text-align: center;
+  overflow-wrap: anywhere;
   rotate: -3deg;
 }
 .note::before {
@@ -164,6 +165,15 @@
 .desk {
   position: relative;
 }
+/* Contact shadow: the desk legs and the floor are both wood, the shadow grounds them. */
+.desk::after {
+  content: '';
+  position: absolute;
+  inset: auto 1% -1.5%;
+  z-index: -1;
+  height: 4%;
+  background: radial-gradient(closest-side, rgb(70 35 12 / 0.45), transparent);
+}
 .area {
   position: absolute;
 }
@@ -177,17 +187,76 @@
   border-radius: 0.3cqw;
   background: #1b2240;
 }
-.marquee {
-  display: inline-block;
-  white-space: nowrap;
-  color: var(--color-sun);
-  font: 800 1.25cqw/1 var(--font-sans);
-  text-shadow: 0 0 0.4cqw rgb(244 181 69 / 0.8);
-  animation: marquee 6s linear infinite;
+/* Code typed out line by line on the monitor (monospace so 1ch is one character). */
+.code {
+  display: grid;
+  gap: 0.15cqw;
+  padding: 0 0.7cqw;
+  font: 500 0.62cqw/1.25 ui-monospace, SFMono-Regular, Menlo, monospace;
+  white-space: pre;
 }
-@keyframes marquee {
+.codeLine {
+  width: 0;
+  overflow: hidden;
+  animation: type calc(var(--chars) * 45ms) steps(var(--chars)) calc(0.6s + var(--i) * 0.9s) forwards;
+}
+.codeLine:last-child::after {
+  content: '▍';
+  color: var(--color-sun);
+  animation: blink 1s steps(1) infinite;
+}
+@keyframes type {
   to {
-    translate: -50% 0;
+    width: calc(var(--chars) * 1ch + 1ch);
+  }
+}
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+.tok-k {
+  color: #c792ea;
+}
+.tok-v {
+  color: #82aaff;
+}
+.tok-s {
+  color: #c3e88d;
+}
+.tok-f {
+  color: #ffcb6b;
+}
+.tok-p {
+  color: #d6deeb;
+}
+
+/* ---------- Neon sign ---------- */
+
+.neon {
+  display: grid;
+  place-items: center;
+  aspect-ratio: 1.6;
+  color: #ffd6f5;
+  font: 800 3.4cqw/1 var(--font-sans);
+  letter-spacing: -0.1em;
+  text-shadow:
+    0 0 0.3cqw #fff,
+    0 0 0.8cqw #ff5ccf,
+    0 0 1.8cqw #ff5ccf,
+    0 0 3cqw rgb(255 92 207 / 0.6);
+  animation: neon-on 1.4s 0.4s steps(1) both;
+}
+@keyframes neon-on {
+  0%,
+  20%,
+  40% {
+    opacity: 0.25;
+  }
+  10%,
+  30%,
+  100% {
+    opacity: 1;
   }
 }
 
@@ -244,7 +313,6 @@
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: var(--ratio);
   padding: 0;
   border: 0;
   background: none;
@@ -254,24 +322,24 @@
 .poses:hover {
   translate: 0 -0.6%;
 }
-/* Both poses share the height and the feet position; the waving one is just wider. */
-.pose {
+/*
+ * The waving pose is an edit of the standing one, laid exactly over it (box from the art manifest).
+ * It fades in on top and the standing pose only drops out once covered, so the body never goes
+ * see-through: only the arm and the face change.
+ */
+.wave {
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: max-content;
-  height: 100%;
-  translate: -50% 0;
-  transition: opacity 0.2s ease;
-}
-.pose img,
-.pose [role='img'] {
-  width: auto;
-  max-width: none;
-  height: 100%;
-}
-.off {
+  inset: 0;
+  display: block;
   opacity: 0;
+  transition: opacity 0.12s ease;
+}
+.waving .wave {
+  opacity: 1;
+}
+.waving > :first-child {
+  visibility: hidden;
+  transition: visibility 0s 0.12s;
 }
 
 .bubble {

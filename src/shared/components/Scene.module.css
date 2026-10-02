@@ -10,15 +10,15 @@
   position: absolute;
   left: 50%;
   bottom: 0;
-  width: max(100vw, 100svh * 16 / 9);
-  aspect-ratio: 16 / 9;
+  width: max(100vw, 100svh * var(--stage-ratio, 16 / 9));
+  aspect-ratio: var(--stage-ratio, 16 / 9);
   translate: -50% 0;
   container-type: inline-size;
 }
 
 /* Explore: the whole stage height always shows; narrow screens lose a little at the sides. */
 .explore .stage {
-  width: calc(100svh * 16 / 9);
+  width: calc(100svh * var(--stage-ratio, 16 / 9));
 }
 
 /* On portrait phones show the full room height and let people swipe across it. */

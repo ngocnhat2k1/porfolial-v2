@@ -9,6 +9,7 @@ type Room = {
   say: (line: string) => void;
   playPiano: (position: number) => void;
   strumGuitar: () => void;
+  quack: () => void;
 };
 
 const RoomContext = createContext<Room | null>(null);
@@ -17,7 +18,7 @@ const RoomContext = createContext<Room | null>(null);
 export function RoomProvider({ children }: { children: ReactNode }) {
   const [line, setLine] = useState<string | null>(null);
   const hideTimer = useRef<number | undefined>(undefined);
-  const { playPiano, strumGuitar } = useSynth();
+  const { playPiano, strumGuitar, quack } = useSynth();
 
   const say = useCallback((next: string) => {
     setLine(next);
@@ -27,7 +28,7 @@ export function RoomProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => () => window.clearTimeout(hideTimer.current), []);
 
-  const room = useMemo(() => ({ line, say, playPiano, strumGuitar }), [line, say, playPiano, strumGuitar]);
+  const room = useMemo(() => ({ line, say, playPiano, strumGuitar, quack }), [line, say, playPiano, strumGuitar, quack]);
   return <RoomContext value={room}>{children}</RoomContext>;
 }
 

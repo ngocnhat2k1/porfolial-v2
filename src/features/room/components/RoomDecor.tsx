@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import type { ReactNode } from 'react';
+import type { CSSProperties, ReactNode } from 'react';
 import { site } from '@/shared/constants/site';
 import { pinnedSkills } from '../constants/lines';
 import { LinkHotspot } from './LinkHotspot';
@@ -21,20 +21,46 @@ export function SkillNotes() {
 }
 
 /** A box positioned in percent of its parent illustration, e.g. the monitor inside the desk. */
-export function Area({ left, top, width, height, children }: { left: number; top: number; width: number; height: number; children: ReactNode }) {
+export function Area({ left, top, width, height, children }: { left: number; top: number; width: number; height?: number; children: ReactNode }) {
   return (
-    <div className={styles.area} style={{ left: `${left}%`, top: `${top}%`, width: `${width}%`, height: `${height}%` }}>
+    <div className={styles.area} style={{ left: `${left}%`, top: `${top}%`, width: `${width}%`, height: height === undefined ? undefined : `${height}%` }}>
       {children}
     </div>
   );
 }
 
-/** Scrolling text on the monitor. */
-export function ScreenMarquee() {
+const code = [
+  [['k', 'const '], ['v', 'nhat'], ['p', ' = {']],
+  [['p', '  role: '], ['s', "'FE Lead'"], ['p', ',']],
+  [['p', '  stack: ['], ['s', "'Next.js'"], ['p', ', '], ['s', "'TS'"], ['p', '],']],
+  [['p', '}; '], ['f', 'ship'], ['p', '(nhat);']],
+] as const;
+
+/** The monitor types out a few lines of code, one line after another. */
+export function CodeScreen() {
   return (
     <span className={styles.screen} aria-hidden="true">
-      <span className={styles.marquee}>See my work&nbsp;&nbsp;&nbsp;See my work&nbsp;&nbsp;&nbsp;</span>
+      <span className={styles.code}>
+        {code.map((line, i) => (
+          <span key={i} className={styles.codeLine} style={{ '--i': i, '--chars': line.reduce((n, [, text]) => n + text.length, 0) } as CSSProperties}>
+            {line.map(([kind, text], j) => (
+              <span key={j} className={styles[`tok-${kind}`]}>
+                {text}
+              </span>
+            ))}
+          </span>
+        ))}
+      </span>
     </span>
+  );
+}
+
+/** A glowing </> sign on the wall that opens GitHub. */
+export function NeonSign() {
+  return (
+    <LinkHotspot href={site.github} label="My code on GitHub" className={styles.neon}>
+      <span aria-hidden="true">&lt;/&gt;</span>
+    </LinkHotspot>
   );
 }
 

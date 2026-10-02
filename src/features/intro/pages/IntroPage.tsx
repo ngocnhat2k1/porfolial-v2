@@ -13,11 +13,11 @@ export default function IntroPage() {
     <PageTransition>
       <main>
         <SceneViewport>
-          <Stage>
+          <Stage ratio={21 / 9}>
             <div className={styles.city}>
-              <ArtImage name="scene-city" alt="Ho Chi Minh City at golden hour, seen from a balcony with a white breeze-block wall" ratio={16 / 9} sizes="100vw" eager />
+              <ArtImage name="scene-city" alt="Ho Chi Minh City at golden hour, seen from a balcony with a white breeze-block wall" ratio={21 / 9} sizes="100vw" eager />
             </div>
-            <Layer left={46.5} width={7} bottom={9} z={3} className={styles.mascot}>
+            <Layer left={47.33} width={5.33} bottom={9} z={3} className={styles.mascot}>
               <MascotTransition>
                 <div>
                   <ArtImage name="char-stand" alt="Illustration of Nhật standing on his balcony" ratio={0.28} sizes="(orientation: portrait) 45vw, 16vw" eager />

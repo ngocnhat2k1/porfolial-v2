@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "ClaudeInChromeDomain(quhu.info.vn)"
+      "ClaudeInChromeDomain(quhu.info.vn)",
+      "ClaudeInChromeDomain(localhost:3000)"
     ]
   }
 }

@@ -32,8 +32,11 @@ export const ASSETS = {
   },
   'char-wave': {
     aspect: '2:3',
-    refs: [SHEET, 'art-raw/char-stand.jpg'],
-    prompt: `The same character as in the reference images, with exactly the same size, framing and foot position as the standing pose. ${SAME} Standing and facing the viewer, waving hello with the left hand raised beside the head, palm open, silver watch visible, right hand still in the trouser pocket, happy open smile. One single character. ${GREEN} ${STYLE}`,
+    // An edit of the standing pose, so the two overlay exactly. He waves with the pocket hand:
+    // the watch arm stays as it is (a watch on a raised, palm-out hand came out wrong).
+    refs: ['art-raw/char-stand.jpg'],
+    prompt:
+      "Edit this image. Change only his right arm (on the viewer's left, the hand in the trouser pocket): take the hand out of the pocket and raise it to wave hello, elbow bent and close to his side, open palm facing the viewer beside his face at ear height. Also give him a happy open-mouth smile. Keep everything else exactly as it is: same character, same size and position in the frame, same head, hair, shirt, trousers, shoes and feet, and his left arm with the silver wristwatch hanging down unchanged. Same background, same art style.",
   },
   'char-window': {
     aspect: '1:1',
@@ -51,9 +54,12 @@ export const ASSETS = {
     prompt: `The same character as in the reference sheet. ${SAME} Sitting on a black office chair at a small white desk, typing on an open silver laptop, focused but relaxed, three-quarter view from the front, a coffee mug and a tiny plant on the desk. ${GREEN} ${STYLE}`,
   },
 
+  // 21:9 so ultra-wide screens are covered without zooming; 16:9 screens crop the extra sides.
   'scene-city': {
-    aspect: '16:9',
-    prompt: `View from a rooftop balcony over Ho Chi Minh City at golden hour. Foreground, bottom quarter of the image: an empty terracotta-tiled balcony floor and, just behind it, a waist-high wall of white Vietnamese breeze blocks with round and geometric cut-outs running across the full width, a few potted plants and small flowers at the far left and far right ends. The centre of the balcony floor is empty because a character will stand there. Beyond the wall: the Saigon River curving through the city with a few small boats, Landmark 81 tower and Bitexco Financial Tower clearly in the skyline, the cable-stayed Thu Thiem bridge, dense low-rise neighbourhoods with red-tile roofs and many trees. Warm sunset sky with big soft clouds. No people. Full-bleed, straight-on view at eye level. ${STYLE}`,
+    aspect: '21:9',
+    size: '4K',
+    refs: ['art-raw/refs/scene-city-16x9.jpg'],
+    prompt: `Widen this exact scene into an ultra-wide 21:9 panorama. Keep the middle of the picture the same: same balcony, wall, skyline, river, bridge, light, colours and art style, at the same scale and the same height in the frame. Do not stretch or squash anything; continue the city, the river, the breeze-block wall and the tiled floor further out to the left and to the right, and move the potted plants out to the new far left and far right ends. View from a rooftop balcony over Ho Chi Minh City at golden hour. Foreground, bottom quarter of the image: an empty terracotta-tiled balcony floor and, just behind it, a waist-high wall of white Vietnamese breeze blocks with round and geometric cut-outs running across the full width, a few potted plants and small flowers at the far left and far right ends. The centre of the balcony floor is empty because a character will stand there. Beyond the wall: the Saigon River curving through the city with a few small boats, Landmark 81 tower and Bitexco Financial Tower clearly in the skyline, the cable-stayed Thu Thiem bridge, dense low-rise neighbourhoods with red-tile roofs and many trees. Warm sunset sky with big soft clouds. No people. Full-bleed, straight-on view at eye level. ${STYLE}`,
   },
 
 
@@ -68,11 +74,12 @@ export const ASSETS = {
   },
   'obj-desk': {
     aspect: '1:1',
-    refs: ['art-raw/refs/desk-setup.jpg'],
+    refs: ['art-raw/refs/desk-v1.jpg'],
     prompt: object(
-      "The work desk from the reference image, redrawn as a straight-on front view at eye level, like a side-scrolling game asset: we look at the front of the desk, so only a thin sliver of the desktop is visible, never seen from above. Walnut desk with a raised monitor shelf; on the shelf a monitor with a slim light bar on top (screen off, plain dark navy, nothing on it) and two small black bookshelf speakers at the ends; a MIDI keyboard under the shelf; on a grey felt mat a cream mechanical keyboard with teal accent keys, a white mouse and a closed space-grey laptop. The whole desk is visible including all legs. No chair, no person.",
+      'Redraw exactly this desk with the camera lowered to the height of the desktop, as a pure front elevation for a side-scrolling game: the desktop is seen almost edge-on, so only a very thin strip of the grey felt mat shows and every item on the desk is seen from the front, not from above. All four legs are perfectly vertical and end on the same floor line; the back legs are hidden behind the front legs. Keep the same monitor with its light bar (screen off, plain dark navy, nothing on it), the two black speakers, the MIDI keyboard under the shelf, the cream mechanical keyboard, the white mouse and the closed laptop, with the same colors and art style. No chair, no person.',
     ),
   },
+
   'obj-duck': {
     aspect: '1:1',
     prompt: object('A small classic yellow rubber duck wearing tiny black-rimmed glasses, sitting, front three-quarter view, friendly and a little nerdy.'),

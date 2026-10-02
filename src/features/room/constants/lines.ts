@@ -12,6 +12,7 @@ export const objectLines = {
   phone: "After work it's mobile games, always on Android.",
   mic: 'I love to sing, too.',
   trophy: 'Employee of the Year 2025 at The Mona.',
+  duck: 'Rubber duck debugging: I explain the bug, the duck just listens.',
 } as const;
 
 /** The sticky notes on the résumé board. */

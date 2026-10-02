@@ -17,7 +17,7 @@ Toàn bộ hình trên site được tạo bằng **bytedance/seedream-4.5** qua
 
 Prompt của từng ảnh nằm trong [`scripts/art/prompts.mjs`](../scripts/art/prompts.mjs), là nguồn duy nhất.
 
-- **Nhân vật:** mọi tư thế dùng `art-raw/char-sheet.jpg` làm mẫu. Mẫu hiện tại là ảnh bạn chọn: dáng cao, mảnh, khoảng 4,5 đầu, nét mặt điềm tĩnh. `char-wave` dùng thêm `char-stand` để giữ cùng khung hình.
+- **Nhân vật:** mọi tư thế dùng `art-raw/char-sheet.jpg` làm mẫu. Mẫu hiện tại là ảnh bạn chọn: dáng cao, mảnh, khoảng 4,5 đầu, nét mặt điềm tĩnh. `char-wave` là bản *sửa* từ `char-stand` (chỉ 1 ảnh mẫu) nên cùng canvas, cùng vị trí; `npm run art` ghi vị trí của nó so với `char-stand` vào manifest (`OVERLAYS` trong `scripts/process-art.mjs`) để hai ảnh chồng khít.
 - **Đồ vật:** vẽ trên nền xanh lá. Seedream không xuất được nền trong suốt.
 - **Cảnh:** `scene-city` (ban công nhìn ra Sài Gòn) là ảnh full khung. Căn phòng không dùng ảnh nền: bức tường dài vẽ bằng CSS, cửa sổ (`obj-window`) và bàn (`obj-desk`, tham chiếu `art-raw/refs/desk-setup.jpg`) là ảnh riêng.
 
@@ -28,3 +28,4 @@ Nền xanh do AI vẽ không phẳng: có vệt nắng vàng và bóng đổ. `s
 1. Loang từ mép ảnh qua mọi pixel xanh lá hoặc vàng nắng. Nét viền đậm của hình vẽ chặn lại, nên lá cây bên trong vật được giữ.
 2. Đục các mảng cùng màu nền bị kẹp kín bên trong vật, ví dụ giữa chân chữ X của đàn. Riêng vật vốn có màu xanh thì bỏ qua bước này.
 3. Giữ vật chính, bỏ mọi mảng chạm mép ảnh (vệt nắng, mảng tường AI tự vẽ thêm) và các đốm vụn nhỏ.
+4. Sửa tỉ lệ AI vẽ chưa đúng: `LENGTHEN` kéo giãn phần dưới của ảnh theo chiều dọc. Hiện dùng cho chân bàn, kéo phần dưới 74% chiều cao dài thêm 1,6 lần. Đổi ảnh bàn thì đo lại `deskArea` trong `placements.ts`.

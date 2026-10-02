@@ -1,11 +1,11 @@
-import { ArtImage } from '@/shared/components/ArtImage';
+import { ArtImage, overlayBox } from '@/shared/components/ArtImage';
 import { Layer } from '@/shared/components/Scene';
 import { deskArea, place, ratio } from '../constants/placements';
 import { ActionHotspot } from './ActionHotspot';
 import { LinkHotspot } from './LinkHotspot';
 import { Mascot } from './Mascot';
 import { PianoKeys } from './PianoKeys';
-import { Area, PhotoFrame, ScreenMarquee, SkillNotes, SocialTiles } from './RoomDecor';
+import { Area, CodeScreen, NeonSign, PhotoFrame, SkillNotes, SocialTiles } from './RoomDecor';
 import styles from './Room.module.css';
 
 /**
@@ -26,6 +26,9 @@ export function RoomScene() {
           <ArtImage name="obj-pinboard" alt="" ratio={ratio.pinboard} sizes="25vw" />
           <SkillNotes />
         </LinkHotspot>
+      </Layer>
+      <Layer {...place.neon}>
+        <NeonSign />
       </Layer>
       <Layer {...place.shelf}>
         <ArtImage name="obj-shelf" alt="" ratio={ratio.shelf} sizes="25vw" />
@@ -53,11 +56,16 @@ export function RoomScene() {
           <ArtImage name="obj-desk" alt="" ratio={ratio.desk} sizes="(orientation: portrait) 60vw, 26vw" eager />
           <Area {...deskArea.screen}>
             <LinkHotspot href="/work" label="Projects" className={styles.zone}>
-              <ScreenMarquee />
+              <CodeScreen />
             </LinkHotspot>
           </Area>
           <Area {...deskArea.keys}>
             <PianoKeys />
+          </Area>
+          <Area {...deskArea.duck}>
+            <ActionHotspot action="duck" label="Rubber duck">
+              <ArtImage name="obj-duck" alt="" ratio={ratio.duck} sizes="4vw" />
+            </ActionHotspot>
           </Area>
         </div>
       </Layer>
@@ -69,8 +77,8 @@ export function RoomScene() {
       <Layer {...place.mascot}>
         <Mascot
           standing={<ArtImage name="char-stand" alt="" ratio={ratio.mascot} sizes="(orientation: portrait) 45vw, 14vw" eager />}
-          waving={<ArtImage name="char-wave" alt="" ratio={ratio.mascot} sizes="(orientation: portrait) 45vw, 14vw" />}
-          ratio={ratio.mascot}
+          waving={<ArtImage name="char-wave" alt="" ratio={ratio.mascot} sizes="(orientation: portrait) 58vw, 18vw" />}
+          over={overlayBox('char-wave')}
         />
       </Layer>
       <Layer {...place.mic}>
