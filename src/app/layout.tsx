@@ -22,6 +22,7 @@ export const metadata: Metadata = {
   description: `${site.role} in Ho Chi Minh City. ${site.tagline}`,
   openGraph: { type: 'website', siteName: site.name, locale: 'en_US' },
   twitter: { card: 'summary_large_image' },
+  verification: { google: 'TJlBrEMG7aJ1uM53tVNR-NGE2aJVOPKwjIluwZ9kTqM' },
 };
 
 export const viewport: Viewport = { themeColor: '#2457b3' };
