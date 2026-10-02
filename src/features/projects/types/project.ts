@@ -1,4 +1,4 @@
-export type ProjectCategory = 'store' | 'learning' | 'saas' | 'ai' | 'lab';
+export type ProjectCategory = 'store' | 'learning' | 'saas' | 'ai';
 
 export type Project = {
   slug: string;

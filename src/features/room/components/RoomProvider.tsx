@@ -34,20 +34,30 @@ export function RoomProvider({ children }: { children: ReactNode }) {
     hideTimer.current = window.setTimeout(() => setLine(null), 4500);
   }, []);
   const toggleNight = useCallback(() => setNight((on) => !on), []);
-  // Created on the first click (browsers block autoplay), so the file only downloads if someone wants it.
   const toggleMusic = useCallback(() => {
-    const audio = (track.current ??= Object.assign(new Audio('/audio/room-music.mp3'), { loop: true, volume: 0.4 }));
-    if (audio.paused) {
-      setMusic(true);
-      audio.play().catch(() => setMusic(false));
-    } else {
-      audio.pause();
-      setMusic(false);
-    }
+    const audio = track.current;
+    if (audio?.paused) audio.play().catch(() => {});
+    else audio?.pause();
   }, []);
 
   useEffect(() => () => window.clearTimeout(hideTimer.current), []);
-  useEffect(() => () => track.current?.pause(), []);
+
+  // Music is on by default. Browsers refuse sound until the visitor has interacted (arriving through a link counts),
+  // so if autoplay is refused it starts on their first click instead. `music` follows what the track is really doing.
+  useEffect(() => {
+    const audio = Object.assign(new Audio('/audio/room-music.mp3'), { loop: true, volume: 0.4 });
+    audio.onplay = () => setMusic(true);
+    audio.onpause = () => setMusic(false);
+    track.current = audio;
+    const leave = new AbortController();
+    const play = () => void audio.play().catch(() => {});
+    // Bubble phase: a click on a speaker is handled by React first, so it is not started twice and stopped.
+    audio.play().catch(() => window.addEventListener('click', play, { once: true, signal: leave.signal }));
+    return () => {
+      leave.abort();
+      audio.pause();
+    };
+  }, []);
 
   const { playPiano, strumGuitar, quack, meow, buzz, hum, chime } = synth;
   const room = useMemo(

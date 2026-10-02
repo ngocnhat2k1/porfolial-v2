@@ -1,14 +1,14 @@
 # Projects Feature
 
 ## Mô tả
-Trang `/work`: mọi sản phẩm Nhật đã làm từ 2023. Bố cục theo quhu.info.vn/work: ba thẻ nổi bật lớn ở đầu, bên dưới là các nhóm (Storefronts, Learning platforms, SaaS/ERP, AI and automation, Demos) mỗi nhóm một lưới bốn cột thẻ pastel nhỏ. Header có hình `char-desk` đứng trên đường kẻ đáy.
+Trang `/work`: mọi sản phẩm Nhật đã làm từ 2023. Bố cục theo quhu.info.vn/work: ba thẻ nổi bật lớn ở đầu, bên dưới là các nhóm (Storefronts, Learning platforms, SaaS/ERP, AI and automation) mỗi nhóm một lưới bốn cột thẻ pastel nhỏ. Header có hình `char-desk` đứng trên đường kẻ đáy.
 
 ## Nghiệp vụ chính
 - Dự án `featured: true` (Cinestar, Bachlong, Khanh Hung) lên đầu, thẻ lớn có thêm vai trò và stack. Phòng (`room/RoomDecor`) cũng lấy nhóm này để chiếu trên màn hình máy tính.
 - Các dự án còn lại vào nhóm theo `category`, giữ đúng thứ tự trong `constants/projects.ts`. Màu nền thẻ xoay vòng sáu token pastel (`bg-mint`, `bg-butter`…).
 - Thẻ chỉ hiện loại sản phẩm, năm (rút từ `period`), ảnh, tên và một câu mô tả. Đầu việc chi tiết (`points`) chỉ hiện ở trang Resume.
 - Có `url`: hiện ảnh `public/work/<slug>.jpg`, cả thẻ là link mở tab mới (link ở tên được kéo phủ thẻ). Hover/focus: thẻ nhấc lên, nghiêng nhẹ, ảnh zoom, sticker "visit ↗" bật ra ở góc.
-- Không có `url`: khung kẻ sọc với icon của nhóm và `status` ("Not launched yet", "Internal, behind login", "Demo"…).
+- Không có `url`: khung kẻ sọc với icon của nhóm và `status` ("Not launched yet", "Internal, behind login"…).
 - Có `note` (NHAHANG.AI): một dòng chữ viết tay dưới tên.
 
 ## Nguồn dữ liệu

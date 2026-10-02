@@ -1,4 +1,4 @@
-import { Bot, FlaskConical, GraduationCap, LayoutDashboard, ShoppingBag, type LucideIcon } from 'lucide-react';
+import { Bot, GraduationCap, LayoutDashboard, ShoppingBag, type LucideIcon } from 'lucide-react';
 import type { Project, ProjectCategory } from '../types/project';
 
 /** Sections of the /work page, in display order. The icon fills a card that has no screenshot. */
@@ -7,7 +7,6 @@ export const categories: { id: ProjectCategory; title: string; blurb: string; ic
   { id: 'learning', title: 'Learning platforms', blurb: 'Course sales, learning sites and the dashboards that run them.', icon: GraduationCap },
   { id: 'saas', title: 'SaaS, ERP and back offices', blurb: 'Products people log in to every day.', icon: LayoutDashboard },
   { id: 'ai', title: 'AI and automation', blurb: 'MCP servers and bots that let AI assistants work with these products.', icon: Bot },
-  { id: 'lab', title: 'Demos and concepts', blurb: 'Proofs of concept and pitches.', icon: FlaskConical },
 ];
 
 // Projects with `points` come from master-profile.md and also appear on the résumé. Order follows the
@@ -344,45 +343,5 @@ export const projects: Project[] = [
     period: '09/2026',
     stack: ['Go (AI-assisted)', 'Claude Code'],
     status: 'Internal tool',
-  },
-  {
-    slug: 'vtcnews',
-    name: 'VTC News redesign',
-    category: 'lab',
-    kind: 'Redesign concept',
-    what: 'A UI kit and a new homepage layout for a national news site.',
-    period: '09/2026 – 10/2026',
-    stack: ['HTML', 'CSS'],
-    url: 'https://vtcnews-mockup-16.vercel.app/',
-  },
-  {
-    slug: 'mall-3d',
-    name: 'Mall Navigator 3D',
-    category: 'lab',
-    kind: 'Three.js demo',
-    what: 'Multi-floor 3D mall map with A* pathfinding between shops.',
-    period: '04/2026',
-    stack: ['React', 'Three.js', 'React Three Fiber'],
-    status: 'Demo',
-  },
-  {
-    slug: 'wrapforge',
-    name: 'WrapForge',
-    category: 'lab',
-    kind: 'SVG customiser',
-    what: 'Vehicle-wrap and decal customiser that edits and exports SVG.',
-    period: '05/2026 – 07/2026',
-    stack: ['React', 'Vite', 'Tailwind CSS'],
-    status: 'Demo',
-  },
-  {
-    slug: 'logistics',
-    name: 'Logistics dispatch',
-    category: 'lab',
-    kind: 'Logistics POC',
-    what: 'Dispatch, fleet, warehouse and COD flow for a road-freight company, stored in IndexedDB.',
-    period: '05/2026 – 06/2026',
-    stack: ['Next.js', 'Zustand', 'Leaflet'],
-    status: 'Demo',
   },
 ];
