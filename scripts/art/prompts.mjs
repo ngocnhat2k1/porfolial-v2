@@ -93,4 +93,39 @@ export const ASSETS = {
   'obj-plant-left': { aspect: '2:3', prompt: object('A tall monstera plant in a cream ceramic pot.') },
   'obj-plant-right': { aspect: '2:3', prompt: object('A fiddle-leaf fig tree in a woven seagrass basket.') },
   'obj-rug': { aspect: '16:9', prompt: object('A round woven rug seen from a low front angle so it looks like a wide flat ellipse, cream with a sunset-orange and royal-blue border pattern.') },
+  'obj-clock': {
+    aspect: '1:1',
+    prompt: object(
+      'A round wall clock with a thin honey-wood rim and a plain cream face marked only by twelve small dark tick marks, no numbers. The clock has no hands at all: the face is empty apart from the tick marks and a tiny brass dot in the centre.',
+    ),
+  },
+  // From scratch the model kept adding a wall and a sunbeam behind the cat (seq 83/84), so the
+  // chosen one is cleaned up as an edit.
+  'obj-cat': {
+    aspect: '4:3',
+    refs: ['art-raw/candidates/obj-cat-83.jpg'],
+    prompt: `Edit this image. Keep the sleeping orange tabby cat exactly as it is: same pose, size, position, colours and line art. Remove everything else: the wall, the wooden baseboard, the light beam and the floor. ${GREEN} ${STYLE}`,
+  },
+
+  // Alternate states drawn as edits of a base image, so they overlay it exactly (OVERLAYS in scripts/process-art.mjs).
+  'obj-window-night': {
+    aspect: '1:1',
+    refs: ['art-raw/obj-window.jpg'],
+    prompt:
+      'Edit this image: make it night. Keep the window frame, the curtains and the rod exactly the same, at the same size and position, and keep the same flat green background around the window. Through the glass, the same Ho Chi Minh City skyline at night: deep navy sky with a few stars and a thin crescent moon, the towers and buildings lit with many small warm windows and a few colourful lights. The frame and curtains are lit softly by cool moonlight. Same art style.',
+  },
+  // Waking the cat up kept the old wrapped tail as a second one (seq 86–89), so the chosen
+  // candidate gets that tail removed in a second edit.
+  'obj-cat-up': {
+    aspect: '4:3',
+    refs: ['art-raw/candidates/obj-cat-up-89.jpg'],
+    prompt:
+      "Edit this image. The cat has two tails by mistake: remove the striped tail lying along the bottom in front of the cat's paws and body, and draw its front paws and soft belly fur there instead. Keep the one tail that rises behind its back and curls upward. Keep everything else exactly the same: the head, face, eyes, body, size, position, colours, line art and the flat green background.",
+  },
+  'obj-cat-wag': {
+    aspect: '4:3',
+    refs: ['art-raw/obj-cat-up.jpg'],
+    prompt:
+      'Edit this image. Change only the tail, as the second frame of a tail wag: it now leans further out to the right and is straighter, with its tip curling the other way. Keep everything else exactly the same, pixel for pixel: the head, face, eyes, body, paws, size, position, colours, line art and the flat green background.',
+  },
 };

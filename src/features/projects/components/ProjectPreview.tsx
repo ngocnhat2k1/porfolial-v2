@@ -1,42 +1,38 @@
+import type { LucideIcon } from 'lucide-react';
 import Image from 'next/image';
-import { cx } from '@/shared/utils/cx';
 import type { Project } from '../types/project';
 
 type Props = {
   project: Project;
+  /** Fills the frame when there is no screenshot. */
+  icon: LucideIcon;
   /** Rendered width of the frame, so `next/image` picks the right file. */
   sizes: string;
   /** Load straight away: the first featured screenshot is usually the page's largest paint. */
   eager?: boolean;
 };
 
-const dots = ['bg-dusk', 'bg-sun', 'bg-leaf'];
-
-/** An illustrated browser window: the live site's screenshot, or its status while it is not public. */
-export function ProjectPreview({ project, sizes, eager = false }: Props) {
+/** The live site's screenshot in an ink frame, or, while there is no public site, its icon and status. */
+export function ProjectPreview({ project, icon: Icon, sizes, eager = false }: Props) {
   return (
-    <div className={cx('overflow-hidden rounded-card border-[2.5px] border-ink bg-paper', project.featured && 'shadow-pop')}>
-      <div className="flex gap-1.5 border-b-[2.5px] border-ink bg-wall px-3 py-2.5" aria-hidden="true">
-        {dots.map((color) => (
-          <span key={color} className={cx('size-3 rounded-full border-2 border-ink', color)} />
-        ))}
-      </div>
-      <div className="aspect-[16/10]">
-        {project.url ? (
-          <Image
-            src={`/work/${project.slug}.jpg`}
-            alt={`Screenshot of the ${project.name} website`}
-            width={1440}
-            height={900}
-            sizes={sizes}
-            loading={eager ? 'eager' : undefined}
-            fetchPriority={eager ? 'high' : undefined}
-            className="size-full object-cover object-top"
-          />
-        ) : (
-          <p className="grid size-full place-items-center px-4 text-center font-bold text-ink-soft">{project.status}</p>
-        )}
-      </div>
+    <div className="mt-3 aspect-[16/10] overflow-hidden rounded-[10px] border-2 border-ink bg-paper">
+      {project.url ? (
+        <Image
+          src={`/work/${project.slug}.jpg`}
+          alt={`Screenshot of the ${project.name} website`}
+          width={1440}
+          height={900}
+          sizes={sizes}
+          loading={eager ? 'eager' : undefined}
+          fetchPriority={eager ? 'high' : undefined}
+          className="size-full object-cover object-top transition duration-500 group-hover:scale-105"
+        />
+      ) : (
+        <div className="grid size-full place-content-center justify-items-center gap-2 bg-[repeating-linear-gradient(-45deg,transparent_0_10px,rgb(38_35_56/0.04)_10px_20px)] px-4 text-center">
+          <Icon aria-hidden="true" strokeWidth={1.6} className="size-10 text-ink/60 transition duration-500 group-hover:-rotate-6 group-hover:scale-110" />
+          <p className="text-sm font-bold text-ink-soft">{project.status}</p>
+        </div>
+      )}
     </div>
   );
 }

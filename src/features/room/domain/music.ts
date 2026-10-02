@@ -16,8 +16,8 @@ export const noteAt = (position: number) => {
 export const G_MAJOR = [43, 47, 50, 55, 59, 67] as const;
 
 /** A soft electric-piano note: a triangle wave plus two quiet overtones, fading over 1.6 s. */
-export function playPianoNote(ctx: AudioContext, frequency: number) {
-  const now = ctx.currentTime;
+export function playPianoNote(ctx: AudioContext, frequency: number, delay = 0) {
+  const now = ctx.currentTime + delay;
   const envelope = ctx.createGain();
   envelope.gain.setValueAtTime(0.0001, now);
   envelope.gain.exponentialRampToValueAtTime(0.3, now + 0.01);
@@ -79,4 +79,67 @@ export function playStrum(ctx: AudioContext, frequencies: readonly number[]) {
     string.connect(volume);
     string.start(ctx.currentTime + i * 0.03);
   });
+}
+
+/** A little hummed tune: a sine voice with vibrato, one note after another. */
+export function playHum(ctx: AudioContext, frequencies: readonly number[], noteLength = 0.32) {
+  const start = ctx.currentTime;
+  const end = start + frequencies.length * noteLength;
+  const voice = ctx.createOscillator();
+  const vibrato = ctx.createOscillator();
+  const depth = ctx.createGain();
+  const volume = ctx.createGain();
+  frequencies.forEach((frequency, i) => voice.frequency.setTargetAtTime(frequency, start + i * noteLength, 0.03));
+  vibrato.frequency.value = 5.5;
+  depth.gain.value = 6;
+  vibrato.connect(depth).connect(voice.frequency);
+  volume.gain.setValueAtTime(0.0001, start);
+  volume.gain.exponentialRampToValueAtTime(0.16, start + 0.08);
+  volume.gain.setValueAtTime(0.16, end - 0.15);
+  volume.gain.exponentialRampToValueAtTime(0.0001, end);
+  voice.connect(volume).connect(ctx.destination);
+  for (const oscillator of [voice, vibrato]) {
+    oscillator.start(start);
+    oscillator.stop(end + 0.05);
+  }
+}
+
+/** A cat's "mew": a nasal sawtooth through a vowel-like band-pass, pitch rising then falling. */
+export function playMeow(ctx: AudioContext) {
+  const now = ctx.currentTime;
+  const voice = ctx.createOscillator();
+  const vowel = ctx.createBiquadFilter();
+  const volume = ctx.createGain();
+  voice.type = 'sawtooth';
+  voice.frequency.setValueAtTime(520, now);
+  voice.frequency.exponentialRampToValueAtTime(820, now + 0.18);
+  voice.frequency.exponentialRampToValueAtTime(480, now + 0.55);
+  vowel.type = 'bandpass';
+  vowel.Q.value = 4;
+  vowel.frequency.setValueAtTime(900, now);
+  vowel.frequency.exponentialRampToValueAtTime(1800, now + 0.2);
+  vowel.frequency.exponentialRampToValueAtTime(700, now + 0.55);
+  volume.gain.setValueAtTime(0.0001, now);
+  volume.gain.exponentialRampToValueAtTime(0.25, now + 0.06);
+  volume.gain.exponentialRampToValueAtTime(0.0001, now + 0.6);
+  voice.connect(vowel).connect(volume).connect(ctx.destination);
+  voice.start(now);
+  voice.stop(now + 0.65);
+}
+
+/** A phone on vibrate: two short low buzzes. */
+export function playBuzz(ctx: AudioContext) {
+  const now = ctx.currentTime;
+  const motor = ctx.createOscillator();
+  const volume = ctx.createGain();
+  motor.type = 'square';
+  motor.frequency.value = 140;
+  volume.gain.value = 0;
+  for (const at of [0, 0.3]) {
+    volume.gain.setValueAtTime(0.06, now + at);
+    volume.gain.setValueAtTime(0, now + at + 0.18);
+  }
+  motor.connect(volume).connect(ctx.destination);
+  motor.start(now);
+  motor.stop(now + 0.5);
 }

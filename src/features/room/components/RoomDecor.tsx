@@ -1,24 +1,13 @@
 import Image from 'next/image';
 import type { CSSProperties, ReactNode } from 'react';
+import { projects } from '@/features/projects';
 import { site } from '@/shared/constants/site';
-import { pinnedSkills } from '../constants/lines';
+import { objectLines } from '../constants/lines';
 import { LinkHotspot } from './LinkHotspot';
+import { SayOnHover } from './RoomGadgets';
 import styles from './Room.module.css';
 
 // Small things drawn in code on top of the painted room: text never comes from the AI art.
-
-/** Skill sticky notes pinned on the résumé board. Decorative: the link itself is "Resume". */
-export function SkillNotes() {
-  return (
-    <ul className={styles.notes} aria-hidden="true">
-      {pinnedSkills.map((skill) => (
-        <li key={skill} className={styles.note}>
-          {skill}
-        </li>
-      ))}
-    </ul>
-  );
-}
 
 /** A box positioned in percent of its parent illustration, e.g. the monitor inside the desk. */
 export function Area({ left, top, width, height, children }: { left: number; top: number; width: number; height?: number; children: ReactNode }) {
@@ -36,10 +25,17 @@ const code = [
   [['p', '}; '], ['f', 'ship'], ['p', '(nhat);']],
 ] as const;
 
-/** The monitor types out a few lines of code, one line after another. */
+const shots = projects.filter((project) => project.featured);
+
+/** The monitor types out a few lines of code; hovered, it flips through the featured projects. */
 export function CodeScreen() {
   return (
     <span className={styles.screen} aria-hidden="true">
+      <span className={styles.shots}>
+        {shots.map((project, i) => (
+          <Image key={project.slug} src={`/work/${project.slug}.jpg`} alt="" fill sizes="13vw" className={styles.shot} style={{ '--i': i, '--n': shots.length } as CSSProperties} />
+        ))}
+      </span>
       <span className={styles.code}>
         {code.map((line, i) => (
           <span key={i} className={styles.codeLine} style={{ '--i': i, '--chars': line.reduce((n, [, text]) => n + text.length, 0) } as CSSProperties}>
@@ -64,13 +60,13 @@ export function NeonSign() {
   );
 }
 
-/** The one real photo in the room, in a wooden frame. */
+/** The one real photo in the room, in a wooden frame that tilts when hovered. */
 export function PhotoFrame() {
   return (
-    <LinkHotspot href="/about" label="About me">
-      <span className={styles.frame}>
+    <LinkHotspot href="/about" label="About me" className={styles.tilt}>
+      <SayOnHover line={objectLines.photo} className={styles.frame}>
         <Image src="/images/nhat-beach.jpg" alt="" width={675} height={900} sizes="8vw" className={styles.photo} />
-      </span>
+      </SayOnHover>
     </LinkHotspot>
   );
 }

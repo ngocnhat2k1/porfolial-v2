@@ -22,6 +22,7 @@
       #c4854a 100svh
     );
   background-attachment: local;
+  transition: box-shadow 0.6s ease;
 }
 
 /* ---------- Interactive objects ---------- */
@@ -74,6 +75,9 @@
   box-shadow: 0.2cqw 0.2cqw 0 var(--color-ink);
   color: var(--color-ink);
   font: 1.15cqw/1.1 var(--font-hand);
+  /* Labels sit inside their objects: do not inherit the neon's tight spacing and glow. */
+  letter-spacing: normal;
+  text-shadow: none;
   white-space: nowrap;
   opacity: 0;
   translate: -50% 0.3cqw;
@@ -158,6 +162,16 @@
 .note:nth-child(4n + 4) {
   background: #cdeccf;
   rotate: 3deg;
+}
+.note {
+  transition: translate 0.2s ease, rotate 0.2s ease, scale 0.2s ease, box-shadow 0.2s ease;
+}
+.note:hover {
+  z-index: 1;
+  translate: 0 -12%;
+  rotate: 0deg;
+  scale: 1.15;
+  box-shadow: 0.3cqw 0.5cqw 0 rgb(38 35 56 / 0.22);
 }
 
 /* ---------- Desk: monitor and MIDI keyboard ---------- */
@@ -322,19 +336,20 @@
 .poses:hover {
   translate: 0 -0.6%;
 }
-/*
- * The waving pose is an edit of the standing one, laid exactly over it (box from the art manifest).
- * It fades in on top and the standing pose only drops out once covered, so the body never goes
- * see-through: only the arm and the face change.
- */
-.wave {
+/* An alternate state laid exactly over its base image: box from the art manifest (overlayStyle). */
+.over {
   position: absolute;
   inset: 0;
   display: block;
   opacity: 0;
+  pointer-events: none;
   transition: opacity 0.12s ease;
 }
-.waving .wave {
+/*
+ * The waving pose is an edit of the standing one. It fades in on top and the standing pose only
+ * drops out once covered, so the body never goes see-through: only the arm and the face change.
+ */
+.waving .over {
   opacity: 1;
 }
 .waving > :first-child {
@@ -417,4 +432,395 @@
     translate: -50% -5cqw;
     rotate: 12deg;
   }
+}
+
+/* ---------- Desk speakers: background music ---------- */
+
+.speaker {
+  position: absolute;
+  inset: 0;
+  border-radius: 0.4cqw;
+}
+.speaker:is(:hover, :focus-visible) {
+  translate: none;
+  filter: none;
+  background: rgb(255 255 255 / 0.14);
+}
+.musicNote {
+  position: absolute;
+  bottom: 85%;
+  color: #3f312a;
+  font-family: var(--font-hand);
+  line-height: 1;
+  text-shadow: 0 0 0.25cqw rgb(255 244 225 / 0.7);
+  translate: -50% 0;
+  pointer-events: none;
+  animation: note-rise 2.6s ease-out forwards;
+}
+/* Each note sways one way then the other on its own random --dx and --spin. */
+@keyframes note-rise {
+  0% {
+    opacity: 0;
+    translate: -50% 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  50% {
+    translate: calc(-50% - var(--dx) / 2) -3.5cqw;
+    rotate: calc(var(--spin) / -2);
+  }
+  100% {
+    opacity: 0;
+    translate: calc(-50% + var(--dx)) -7cqw;
+    rotate: var(--spin);
+  }
+}
+
+/* ---------- Hover moments: every object answers the pointer ---------- */
+
+/* The neon stutters, like a tube that is not quite warm. */
+.neon:hover > span {
+  animation: flicker 0.5s steps(1);
+}
+@keyframes flicker {
+  20%,
+  55% {
+    opacity: 0.35;
+  }
+  40%,
+  70% {
+    opacity: 1;
+  }
+}
+
+/* The phone buzzes and a notification dot pops up. */
+.buzz:hover > img {
+  animation: buzz 0.12s linear 4;
+}
+@keyframes buzz {
+  25% {
+    transform: translateX(-5%) rotate(-3deg);
+  }
+  75% {
+    transform: translateX(5%) rotate(3deg);
+  }
+}
+.buzz::before {
+  content: '';
+  position: absolute;
+  top: 4%;
+  right: 0;
+  z-index: 1;
+  width: 30%;
+  aspect-ratio: 1;
+  border: 0.1cqw solid #fff;
+  border-radius: 50%;
+  background: #e5484d;
+  scale: 0;
+  transition: scale 0.2s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.buzz:hover::before {
+  scale: 1;
+}
+
+/* A glint sweeps across the trophy, clipped to its shape (--shape is the trophy image). */
+.shine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(110deg, transparent 42%, rgb(255 255 255 / 0.9) 50%, transparent 58%) 150% 0 / 300% 100% no-repeat;
+  mask: var(--shape) center / 100% 100% no-repeat;
+  opacity: 0;
+  pointer-events: none;
+}
+.shine:hover::after {
+  animation: glint 0.9s ease;
+}
+@keyframes glint {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 1;
+    background-position: -50% 0;
+  }
+}
+
+/* Sound rings come off the microphone head. */
+.waves::before,
+.waves::after {
+  content: '';
+  position: absolute;
+  top: 5%;
+  left: 50%;
+  width: 170%;
+  aspect-ratio: 1;
+  border: 0.15cqw solid rgb(255 255 255 / 0.85);
+  border-radius: 50%;
+  opacity: 0;
+  translate: -50% -42%;
+  pointer-events: none;
+}
+.waves:hover::before,
+.waves:hover::after {
+  animation: ring 1.2s ease-out infinite;
+}
+.waves:hover::after {
+  animation-delay: 0.6s;
+}
+@keyframes ring {
+  from {
+    opacity: 1;
+    scale: 0.25;
+  }
+  to {
+    opacity: 0;
+    scale: 1;
+  }
+}
+
+/* The guitar's strings hum. */
+.shiver:hover > img {
+  transform-origin: 50% 100%;
+  animation: shiver 0.08s linear 6;
+}
+@keyframes shiver {
+  50% {
+    transform: rotate(0.8deg);
+  }
+}
+
+/* The photo hangs from one nail and tips when touched. */
+.tilt .frame {
+  transform-origin: 50% 0;
+  transition: rotate 0.35s cubic-bezier(0.3, 1.6, 0.5, 1);
+}
+.tilt:hover .frame {
+  rotate: -4deg;
+}
+
+/* Leaves sway; the pot stays put. */
+.sway {
+  display: block;
+  transform-origin: 50% 100%;
+}
+.sway:hover {
+  animation: sway 1.8s ease-in-out infinite;
+}
+@keyframes sway {
+  25% {
+    transform: skewX(2deg);
+  }
+  75% {
+    transform: skewX(-2deg);
+  }
+}
+
+/* The cat wakes up when you come close and wags its tail (two frames over the sleeping one). */
+.cat:hover > img {
+  visibility: hidden;
+}
+.cat:hover .over {
+  animation: wag 0.8s steps(1) infinite;
+}
+.cat:hover .over + .over {
+  animation-delay: -0.4s;
+}
+@keyframes wag {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Hovering the monitor flips through the featured projects (keyframes assume three of them). */
+.shots {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.zone:is(:hover, :focus-visible) .shots {
+  opacity: 1;
+}
+.shot {
+  object-fit: cover;
+  object-position: top;
+  opacity: 0;
+  animation: shot calc(var(--n) * 2.2s) calc(var(--i) * 2.2s) infinite;
+}
+@keyframes shot {
+  0%,
+  30% {
+    opacity: 1;
+  }
+  34%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* Confetti out of the trophy: each bit flies up along its own --dx/--dy, then falls. */
+.confetti {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  z-index: 2;
+  width: 0.45cqw;
+  height: 0.7cqw;
+  border-radius: 0.08cqw;
+  pointer-events: none;
+  animation: confetti 1.3s cubic-bezier(0.15, 0.7, 0.4, 1) both;
+}
+@keyframes confetti {
+  45% {
+    opacity: 1;
+    transform: translate(calc(-50% + var(--dx) * 0.7), var(--dy)) rotate(calc(var(--spin) * 0.5));
+  }
+  to {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--dx)), calc(var(--dy) + 9cqw)) rotate(var(--spin));
+  }
+}
+
+/* ---------- Wall clock (Saigon time) ---------- */
+
+.hourHand,
+.minuteHand {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  width: 0.32cqw;
+  height: 20%;
+  border-radius: 0.2cqw;
+  background: var(--color-ink);
+  translate: -50% 0;
+  transform-origin: 50% 100%;
+}
+.minuteHand {
+  width: 0.2cqw;
+  height: 30%;
+}
+
+/* ---------- Rubber duck note ---------- */
+
+.duckNote {
+  position: absolute;
+  bottom: calc(100% + 0.6cqw);
+  left: -10%;
+  z-index: 25;
+  display: flex;
+  gap: 0.4cqw;
+  width: 17cqw;
+  padding: 0.5cqw;
+  border: 0.15cqw solid var(--color-ink);
+  border-radius: 0.7cqw;
+  background: var(--color-paper);
+  box-shadow: 0.2cqw 0.2cqw 0 var(--color-ink);
+  font: 1.05cqw/1.2 var(--font-hand);
+}
+/* The open note covers the duck's label. */
+[aria-expanded='true'] > .tag {
+  display: none;
+}
+.duckNote input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.3cqw 0.5cqw;
+  border: 0.12cqw solid var(--color-ink-soft);
+  border-radius: 0.4cqw;
+  background: #fff;
+  color: var(--color-ink);
+  /* 16px or more so iOS does not zoom in on focus. */
+  font: max(16px, 1.05cqw) / 1.2 var(--font-hand);
+}
+.duckNote button {
+  padding: 0.3cqw 0.8cqw;
+  border: 0.12cqw solid var(--color-ink);
+  border-radius: 999px;
+  background: var(--color-sun);
+  color: var(--color-ink);
+  font: inherit;
+  cursor: pointer;
+}
+.quack {
+  margin: 0;
+  padding: 0.2cqw 0.4cqw;
+  font-size: 1.4cqw;
+}
+
+/* ---------- Lights ---------- */
+
+.switch {
+  aspect-ratio: 0.62;
+  border: 0.15cqw solid var(--color-ink);
+  border-radius: 0.3cqw;
+  background: var(--color-paper);
+  box-shadow: 0.15cqw 0.15cqw 0 rgb(38 35 56 / 0.35);
+  transition: box-shadow 0.6s ease;
+}
+.lever {
+  position: absolute;
+  top: 16%;
+  left: 50%;
+  width: 30%;
+  height: 34%;
+  border-radius: 0.1cqw;
+  background: var(--color-ink-soft);
+  box-shadow: inset 0 -0.12cqw 0 rgb(0 0 0 / 0.35);
+  translate: -50% 0;
+  transition: top 0.15s ease;
+}
+.night .lever {
+  top: 50%;
+}
+/* The switch glows in the dark so you can always find your way back. */
+.night .switch {
+  box-shadow: 0 0 0.9cqw rgb(255 214 140 / 0.7);
+}
+
+/* Lights off: the wall and every painted thing dim, except what gives off light. */
+.room :is(img, .notes, .tile, .frame) {
+  transition: filter 0.6s ease;
+}
+.night :is(img, .notes, .tile, .frame):not(.moonlit img, .shot) {
+  filter: brightness(0.5) saturate(0.75);
+}
+.night .wall {
+  box-shadow: inset 0 0 0 100vmax rgb(12 18 48 / 0.6);
+}
+.moonlit {
+  transition-duration: 0.6s;
+}
+.night .moonlit {
+  opacity: 1;
+}
+.night .neon {
+  text-shadow:
+    0 0 0.4cqw #fff,
+    0 0 1.2cqw #ff5ccf,
+    0 0 2.6cqw #ff5ccf,
+    0 0 4.5cqw rgb(255 92 207 / 0.7);
+}
+/* Pools of light from the window, the neon and the monitor, added on top of the dim room. */
+.glow {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  opacity: 0;
+  background:
+    radial-gradient(ellipse 13% 24% at 50% 26%, rgb(110 150 255 / 0.35), transparent 70%),
+    radial-gradient(ellipse 18% 30% at 50% 72%, rgb(110 150 255 / 0.16), transparent 70%),
+    radial-gradient(ellipse 8% 12% at 35% 17%, rgb(255 92 207 / 0.4), transparent 70%),
+    radial-gradient(ellipse 10% 14% at 21% 50%, rgb(130 170 255 / 0.35), transparent 70%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+.night .glow {
+  opacity: 1;
 }

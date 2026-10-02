@@ -77,7 +77,7 @@ export default function ResumePage() {
             </ResumeSection>
 
             <ResumeSection title="Selected projects">
-              {projects.map((project) => (
+              {projects.filter((project) => project.points).map((project) => (
                 <ResumeEntry key={project.slug} title={project.name} period={project.period} points={project.points}>
                   <div className="flex flex-wrap items-baseline justify-between gap-x-4">
                     <p className="font-bold">{project.role}</p>
@@ -94,7 +94,7 @@ export default function ResumePage() {
               <ul className="space-y-1">
                 {skills.map(({ group, items }) => (
                   <li key={group}>
-                    <span className="font-bold">{group}:</span> {items.join(', ')}
+                    <span className="font-bold">{group}:</span> {items.map((item) => item.name).join(', ')}
                   </li>
                 ))}
               </ul>

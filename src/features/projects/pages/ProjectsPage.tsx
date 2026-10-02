@@ -2,19 +2,19 @@ import type { Metadata } from 'next';
 import { ArtImage } from '@/shared/components/ArtImage';
 import { PageTransition } from '@/shared/components/PageTransition';
 import { site } from '@/shared/constants/site';
-import { FeaturedProject } from '../components/FeaturedProject';
-import { ProjectTile } from '../components/ProjectTile';
-import { projects } from '../constants/projects';
+import { ProjectCard } from '../components/ProjectCard';
+import { categories, projects } from '../constants/projects';
 
 export const metadata: Metadata = {
   title: 'Projects',
-  description: `Products ${site.name} has built and led, from cinema booking and e-commerce to e-learning and a restaurant SaaS.`,
+  description: `Every product ${site.name} has worked on since 2023: storefronts, learning platforms, SaaS back offices and AI tools.`,
 };
 
+const tints = ['bg-mint', 'bg-butter', 'bg-sky', 'bg-peach', 'bg-lilac', 'bg-rose'];
+const iconOf = Object.fromEntries(categories.map((c) => [c.id, c.icon]));
 const featured = projects.filter((project) => project.featured);
-const others = projects.filter((project) => !project.featured);
 
-/** The work: headline projects as large rows, the rest in a tighter two-column grid. */
+/** The work: three headline cards, then every other project in a four-column grid per category. */
 export default function ProjectsPage() {
   return (
     <PageTransition>
@@ -22,7 +22,9 @@ export default function ProjectsPage() {
         <header className="flex items-end justify-between gap-8 border-b-[2.5px] border-ink">
           <div className="max-w-prose pb-10">
             <h1 className="text-5xl sm:text-6xl">Projects</h1>
-            <p className="mt-4 text-lg">Products I have worked on, from cinema booking to a restaurant SaaS, and my part in each.</p>
+            <p className="mt-4 text-lg">
+              Every product I have worked on since 2023, <strong>{projects.length} in all</strong>: storefronts, learning platforms, back offices and a few AI tools.
+            </p>
           </div>
           {/* Sits on the header's bottom rule, like the desk stands on the floor. */}
           <div className="hidden w-48 shrink-0 sm:block lg:w-[260px]">
@@ -30,22 +32,45 @@ export default function ProjectsPage() {
           </div>
         </header>
 
-        <div className="mt-16 space-y-24 sm:mt-20 sm:space-y-32">
-          {featured.map((project, index) => (
-            <FeaturedProject key={project.slug} project={project} eager={index === 0} />
+        <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {featured.map((project, i) => (
+            <ProjectCard
+              key={project.slug}
+              project={project}
+              icon={iconOf[project.category]}
+              tint={tints[i * 2]}
+              sizes="(min-width: 1024px) 330px, (min-width: 768px) 50vw, calc(100vw - 32px)"
+              featured
+              eager={i === 0}
+            />
           ))}
         </div>
 
-        <section aria-labelledby="more-projects" className="mt-28 sm:mt-36">
-          <h2 id="more-projects" className="text-3xl sm:text-4xl">
-            More projects
-          </h2>
-          <div className="mt-10 grid gap-x-10 gap-y-16 md:grid-cols-2">
-            {others.map((project) => (
-              <ProjectTile key={project.slug} project={project} />
-            ))}
-          </div>
-        </section>
+        {categories.map(({ id, title, blurb, icon }, section) => {
+          const list = projects.filter((project) => project.category === id && !project.featured);
+          return (
+            <section key={id} aria-labelledby={`work-${id}`} className="mt-24">
+              <div className="flex flex-wrap items-end justify-between gap-x-8 gap-y-2 border-b-2 border-dashed border-ink/30 pb-4">
+                <h2 id={`work-${id}`} className="flex items-baseline gap-3 text-3xl sm:text-4xl">
+                  {title}
+                  <span className="rounded-full border-2 border-ink bg-paper px-2.5 py-1 text-sm leading-none">{list.length}</span>
+                </h2>
+                <p className="max-w-sm text-ink-soft">{blurb}</p>
+              </div>
+              <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                {list.map((project, i) => (
+                  <ProjectCard
+                    key={project.slug}
+                    project={project}
+                    icon={icon}
+                    tint={tints[(i + section) % tints.length]}
+                    sizes="(min-width: 1024px) 230px, (min-width: 640px) 50vw, calc(100vw - 32px)"
+                  />
+                ))}
+              </div>
+            </section>
+          );
+        })}
       </main>
     </PageTransition>
   );

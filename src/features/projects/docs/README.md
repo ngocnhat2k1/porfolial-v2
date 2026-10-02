@@ -1,38 +1,36 @@
 # Projects Feature
 
 ## Mô tả
-Trang `/work`: các sản phẩm Nhật đã làm. Dự án nổi bật hiện thành hàng lớn, ảnh chụp trang nằm trong khung trình duyệt vẽ viền mực; các dự án còn lại xếp lưới hai cột gọn hơn. Header có hình `char-desk` đứng trên đường kẻ đáy.
+Trang `/work`: mọi sản phẩm Nhật đã làm từ 2023. Bố cục theo quhu.info.vn/work: ba thẻ nổi bật lớn ở đầu, bên dưới là các nhóm (Storefronts, Learning platforms, SaaS/ERP, AI and automation, Demos) mỗi nhóm một lưới bốn cột thẻ pastel nhỏ. Header có hình `char-desk` đứng trên đường kẻ đáy.
 
 ## Nghiệp vụ chính
-- Dự án có `featured: true` lên đầu thành hàng lớn (h2); còn lại vào mục "More projects" (h3), giữ đúng thứ tự trong `constants/projects.ts`.
-- Có `url`: hiện ảnh chụp `public/work/<slug>.jpg` và nút "Visit site" mở tab mới.
-- Không có `url` nhưng có `status` (BĐS Thiên Quân): khung trình duyệt trống ghi trạng thái, không ảnh, không link.
-- Có `note` (NHAHANG.AI): một dòng chữ viết tay nhỏ dưới loại sản phẩm.
-- Chỉ khung của dự án nổi bật mới có bóng `shadow-pop`; khung trong lưới để phẳng.
+- Dự án `featured: true` (Cinestar, Bachlong, Khanh Hung) lên đầu, thẻ lớn có thêm vai trò và stack. Phòng (`room/RoomDecor`) cũng lấy nhóm này để chiếu trên màn hình máy tính.
+- Các dự án còn lại vào nhóm theo `category`, giữ đúng thứ tự trong `constants/projects.ts`. Màu nền thẻ xoay vòng sáu token pastel (`bg-mint`, `bg-butter`…).
+- Thẻ chỉ hiện loại sản phẩm, năm (rút từ `period`), ảnh, tên và một câu mô tả. Đầu việc chi tiết (`points`) chỉ hiện ở trang Resume.
+- Có `url`: hiện ảnh `public/work/<slug>.jpg`, cả thẻ là link mở tab mới (link ở tên được kéo phủ thẻ). Hover/focus: thẻ nhấc lên, nghiêng nhẹ, ảnh zoom, sticker "visit ↗" bật ra ở góc.
+- Không có `url`: khung kẻ sọc với icon của nhóm và `status` ("Not launched yet", "Internal, behind login", "Demo"…).
+- Có `note` (NHAHANG.AI): một dòng chữ viết tay dưới tên.
+
+## Nguồn dữ liệu
+- Dự án có `points` lấy từ `CV-automation/profile/master-profile.md`, có `role`, và được Resume dùng (Resume lọc `projects.filter(p => p.points)`).
+- Các dự án còn lại lấy từ lịch sử git trong `~/Desktop/Mona` (10/2026): `period` = commit đầu đến commit cuối của Nhật, mô tả là về sản phẩm, KHÔNG ghi vai trò khi chưa xác nhận. Golang luôn ghi "AI-assisted".
 
 ## Cấu trúc file
 | File | Mục đích |
 |------|---------|
-| `pages/ProjectsPage.tsx` | Trang `/work`: header, các hàng nổi bật, lưới "More projects" |
-| `components/FeaturedProject.tsx` | Một dự án nổi bật: ảnh lớn bên cạnh phần chi tiết |
-| `components/ProjectTile.tsx` | Một dự án trong lưới: ảnh nhỏ ở trên, chi tiết bên dưới |
-| `components/ProjectPreview.tsx` | Khung trình duyệt: ảnh chụp trang, hoặc trạng thái khi chưa public |
-| `components/ProjectDetails.tsx` | Loại sản phẩm, ghi chú, mô tả, vai trò và thời gian (`dl`), đầu việc, stack, link |
-| `constants/projects.ts` | Dữ liệu dự án, theo thứ tự hiển thị |
-| `types/project.ts` | Kiểu `Project` |
+| `pages/ProjectsPage.tsx` | Trang `/work`: header, ba thẻ nổi bật, các nhóm |
+| `components/ProjectCard.tsx` | Một thẻ pastel (nhỏ hoặc `featured`), link phủ thẻ, sticker hover |
+| `components/ProjectPreview.tsx` | Khung ảnh viền mực, hoặc icon + trạng thái khi chưa public |
+| `constants/projects.ts` | `categories` (thứ tự, tiêu đề, icon) và dữ liệu dự án |
+| `types/project.ts` | Kiểu `Project`, `ProjectCategory` |
 | `index.ts` | Public API: `projects`, `Project` |
 
-## Luồng dữ liệu
-`constants/projects.ts` → `ProjectsPage` tách nhóm `featured` và phần còn lại → `FeaturedProject` / `ProjectTile` → `ProjectPreview` + `ProjectDetails`. Trang Resume đọc `projects` qua `index.ts`.
-
 ## Phụ thuộc
-- `shared/components/PageTransition` — hiệu ứng vào/ra trang
-- `shared/components/ArtImage` — hình `char-desk`, chưa có ảnh thì hiện khung chờ
-- `shared/ui/button` — nút "Visit site"
-- `shared/utils/cx`
+- `lucide-react` — icon nhóm cho khung không có ảnh
+- `shared/components/ExternalLink`, `PageTransition`, `ArtImage`; `shared/utils/cx`
 - `next/image` — ảnh chụp trang
 
 ## Ghi chú
 - Toàn bộ là Server Component, trang không gửi JS riêng xuống trình duyệt.
-- Ảnh chụp: JPG 1440×900, khung cắt tỉ lệ 16:10 từ mép trên (`object-top`). Chưa có file thì trình duyệt hiện alt text.
-- Ảnh của dự án nổi bật đầu tiên tải ngay (`loading="eager"`, `fetchPriority="high"`) vì thường là LCP.
+- Ảnh chụp: JPG 1440×900, khung 16:10 cắt từ mép trên. Thêm dự án có link thì phải thêm ảnh, thiếu ảnh trình duyệt hiện alt text.
+- Ảnh thẻ nổi bật đầu tiên tải ngay (`eager`, `fetchPriority="high"`) vì thường là LCP.

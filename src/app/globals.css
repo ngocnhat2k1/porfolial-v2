@@ -1,4 +1,6 @@
 @import "tailwindcss";
+/* A Chrome profile from browser automation may sit in prof/; its live socket breaks the class scan. */
+@source not "../../prof";
 
 @theme {
   --color-ink: #262338;
@@ -11,6 +13,14 @@
   --color-paper: #fbfcfe;
   --color-wood: #c88a5a;
   --color-leaf: #5e9b6c;
+
+  /* Pastel card fills: skill groups and project cards. */
+  --color-mint: #d3eadb;
+  --color-butter: #fbe7b5;
+  --color-sky: #d2e2f6;
+  --color-peach: #f9dcc7;
+  --color-lilac: #e2dbf4;
+  --color-rose: #f5d5dd;
 
   --shadow-pop: 4px 4px 0 var(--color-ink);
   --shadow-pop-sm: 3px 3px 0 var(--color-ink);

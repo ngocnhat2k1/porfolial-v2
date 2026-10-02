@@ -10,7 +10,7 @@ import Replicate from 'replicate';
 import { ASSETS } from './prompts.mjs';
 
 const MODEL = 'bytedance/seedream-4.5';
-const CAP = 60;
+const CAP = 80;
 // Under $5 of credit Replicate allows 6 new predictions a minute with a burst of 1.
 const START_GAP_MS = 10_500;
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));

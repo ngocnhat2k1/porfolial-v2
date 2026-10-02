@@ -42,3 +42,6 @@ next-env.d.ts
 
 # raw AI images (processed copies live in public/art)
 /art-raw
+
+# Chrome profile left by browser automation (holds a live socket that breaks Tailwind source scanning)
+/prof

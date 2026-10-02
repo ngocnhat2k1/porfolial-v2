@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { MascotTransition } from '@/shared/components/MascotTransition';
 import { cx } from '@/shared/utils/cx';
 import { greetings } from '../constants/lines';
@@ -11,8 +11,8 @@ type Props = {
   /** Server-rendered poses: he waves while a mouse is over him, or for a moment after a tap. */
   standing: ReactNode;
   waving: ReactNode;
-  /** Where the waving pose sits over the standing one, in percent of it (from the art manifest). */
-  over?: { left: number; top: number; width: number };
+  /** Where the waving pose sits over the standing one (overlayStyle from the art manifest). */
+  over?: CSSProperties;
 };
 
 export function Mascot({ standing, waving, over }: Props) {
@@ -70,7 +70,7 @@ export function Mascot({ standing, waving, over }: Props) {
           className={cx(styles.poses, (hovered || tapped) && styles.waving)}
         >
           {standing}
-          <span className={styles.wave} style={over && { left: `${over.left}%`, top: `${over.top}%`, width: `${over.width}%` }}>
+          <span className={styles.over} style={over}>
             {waving}
           </span>
           <span className="sr-only">Say hi to Nhật</span>

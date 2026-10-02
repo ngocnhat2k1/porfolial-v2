@@ -34,7 +34,10 @@ const POCKET_TOLERANCE = { 'char-wave': 75 };
 const FLOATING_PARTS = new Set(['char-guitar']);
 // Poses painted as edits of a base pose, on the same canvas: the manifest records where each one
 // sits over its base (in percent of the base), so the two can be stacked and swapped in place.
-const OVERLAYS = { 'char-wave': 'char-stand' };
+// Edits the model drew slightly zoomed: scale the raw image up by `scale`, then crop the original
+// size from (`left`, `top`) so it lines up with its base again. Measured by matching the unchanged body.
+const REALIGN = { 'obj-cat-wag': { scale: 1.07, left: 48, top: 48 } };
+const OVERLAYS = { 'char-wave': 'char-stand', 'obj-window-night': 'obj-window', 'obj-cat-up': 'obj-cat', 'obj-cat-wag': 'obj-cat' };
 
 /**
  * Remove the green screen: flood-fill from the image border (the line art fences the drawing off),
@@ -143,6 +146,13 @@ async function processFile(file) {
   const name = path.parse(file).name;
   let image = sharp(path.join(RAW_DIR, file));
   let box;
+
+  if (REALIGN[name]) {
+    const { scale, left, top } = REALIGN[name];
+    const { width, height } = await image.metadata();
+    const zoomed = await image.resize(Math.round(width * scale), Math.round(height * scale)).toBuffer();
+    image = sharp(zoomed).extract({ left, top, width, height });
+  }
 
   if (!FULL_BLEED.has(name)) {
     image = await keyBackground(image, name);

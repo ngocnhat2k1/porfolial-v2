@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import type { CSSProperties } from 'react';
 import manifest from '@/shared/art/manifest.json';
 import { cx } from '@/shared/utils/cx';
 
@@ -11,6 +12,11 @@ export type ArtName =
   | 'char-desk'
   | 'scene-city'
   | 'obj-window'
+  | 'obj-window-night'
+  | 'obj-clock'
+  | 'obj-cat'
+  | 'obj-cat-up'
+  | 'obj-cat-wag'
   | 'obj-desk'
   | 'obj-duck'
   | 'obj-phone'
@@ -28,8 +34,14 @@ type Box = { left: number; top: number; width: number };
 // Written by `npm run art` for every processed file in public/art.
 const processed: Partial<Record<ArtName, { src: string; w: number; h: number; over?: Box }>> = manifest;
 
-/** Where an alternate pose sits over its base pose, in percent of the base (OVERLAYS in scripts/process-art.mjs). */
-export const overlayBox = (name: ArtName) => processed[name]?.over;
+/** Positions an alternate state (a pose, the night window) exactly over its base image (OVERLAYS in scripts/process-art.mjs). */
+export function overlayStyle(name: ArtName): CSSProperties | undefined {
+  const over = processed[name]?.over;
+  return over && { left: `${over.left}%`, top: `${over.top}%`, width: `${over.width}%` };
+}
+
+/** URL of a processed illustration, e.g. for a CSS mask in its shape. */
+export const artSrc = (name: ArtName) => processed[name]?.src;
 
 type Props = {
   name: ArtName;

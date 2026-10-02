@@ -29,6 +29,36 @@
     "w": 1400,
     "h": 1327
   },
+  "obj-cat-up": {
+    "src": "/art/obj-cat-up.4cc4a332.webp",
+    "w": 1400,
+    "h": 1087,
+    "over": {
+      "left": 2.3,
+      "top": -21.93,
+      "width": 91.05
+    }
+  },
+  "obj-cat-wag": {
+    "src": "/art/obj-cat-wag.dd1d0c45.webp",
+    "w": 1400,
+    "h": 973,
+    "over": {
+      "left": 1.96,
+      "top": -24.16,
+      "width": 103.38
+    }
+  },
+  "obj-cat": {
+    "src": "/art/obj-cat.0c947c86.webp",
+    "w": 1400,
+    "h": 737
+  },
+  "obj-clock": {
+    "src": "/art/obj-clock.0f3fee63.webp",
+    "w": 1106,
+    "h": 1084
+  },
   "obj-desk": {
     "src": "/art/obj-desk.48ce052a.webp",
     "w": 1400,
@@ -83,6 +113,16 @@
     "src": "/art/obj-trophy.9f8b513b.webp",
     "w": 943,
     "h": 1400
+  },
+  "obj-window-night": {
+    "src": "/art/obj-window-night.f5f6f71b.webp",
+    "w": 1393,
+    "h": 1400,
+    "over": {
+      "left": -0.11,
+      "top": 0.05,
+      "width": 100.21
+    }
   },
   "obj-window": {
     "src": "/art/obj-window.21d7d2db.webp",

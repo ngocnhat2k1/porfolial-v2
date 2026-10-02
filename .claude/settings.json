@@ -2,7 +2,10 @@
   "permissions": {
     "allow": [
       "ClaudeInChromeDomain(quhu.info.vn)",
-      "ClaudeInChromeDomain(localhost:3000)"
+      "ClaudeInChromeDomain(localhost:3000)",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "ClaudeInChromeDomain(localhost:3010)",
+      "ClaudeInChromeDomain(localhost:3100)"
     ]
   }
 }
