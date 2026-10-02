@@ -1,0 +1,39 @@
+.viewport {
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+  background: var(--color-wall);
+}
+
+/* Cover: the stage is always at least as wide and as tall as the screen, anchored to the floor. */
+.stage {
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: max(100vw, 100svh * 16 / 9);
+  aspect-ratio: 16 / 9;
+  translate: -50% 0;
+  container-type: inline-size;
+}
+
+/* Explore: the whole stage height always shows; narrow screens lose a little at the sides. */
+.explore .stage {
+  width: calc(100svh * 16 / 9);
+}
+
+/* On portrait phones show the full room height and let people swipe across it. */
+@media (orientation: portrait) {
+  .explore {
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+  }
+  .explore .stage {
+    position: relative;
+    left: 0;
+    width: auto;
+    height: 100svh;
+    translate: none;
+  }
+}

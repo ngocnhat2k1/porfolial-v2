@@ -1,0 +1,54 @@
+/* One orchestrated arrival: the camera pulls back from the city onto the balcony,
+   Nhật steps in, then the name card settles. Nothing else moves on its own. */
+
+.city {
+  position: absolute;
+  inset: 0;
+  transform-origin: 55% 40%;
+  animation: pull-back 1.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.mascot {
+  transform-origin: 50% 100%;
+  animation: step-in 0.6s 1s cubic-bezier(0.3, 1.4, 0.5, 1) both;
+}
+
+.card {
+  position: absolute;
+  z-index: 10;
+  top: max(88px, 14svh);
+  left: max(16px, 5vw);
+  width: min(460px, calc(100% - 32px));
+  padding: 28px;
+  border: 2.5px solid var(--color-ink);
+  border-radius: var(--radius-card);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-pop);
+  animation: settle 0.6s 1.3s ease-out both;
+}
+
+@media (orientation: portrait) {
+  .card {
+    top: 80px;
+    left: 16px;
+    padding: 20px;
+  }
+}
+
+@keyframes pull-back {
+  from {
+    scale: 1.18;
+  }
+}
+@keyframes step-in {
+  from {
+    opacity: 0;
+    scale: 0.6;
+  }
+}
+@keyframes settle {
+  from {
+    opacity: 0;
+    translate: 0 8px;
+  }
+}

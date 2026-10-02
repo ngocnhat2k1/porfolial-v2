@@ -1,0 +1,119 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #262338;
+  --color-ink-soft: #4a4660;
+  --color-studio: #2457b3;
+  --color-studio-deep: #1a3f85;
+  --color-sun: #f4b545;
+  --color-dusk: #f6c7a4;
+  --color-wall: #e5ebf4;
+  --color-paper: #fbfcfe;
+  --color-wood: #c88a5a;
+  --color-leaf: #5e9b6c;
+
+  --shadow-pop: 4px 4px 0 var(--color-ink);
+  --shadow-pop-sm: 3px 3px 0 var(--color-ink);
+  --radius-card: 14px;
+}
+
+@theme inline {
+  --font-sans: var(--font-be-vietnam), system-ui, sans-serif;
+  --font-hand: var(--font-patrick), var(--font-be-vietnam), cursive;
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--color-wall);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1,
+  h2,
+  h3 {
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-studio);
+    outline-offset: 3px;
+  }
+}
+
+/* ---------- Page transitions (React <ViewTransition>, see shared/components/PageTransition) ---------- */
+
+/* Chrome (top bar, dock) stays put while pages change underneath it. */
+::view-transition-group(site-chrome) {
+  animation: none;
+  z-index: 100;
+}
+::view-transition-old(site-chrome) {
+  display: none;
+}
+::view-transition-new(site-chrome) {
+  animation: none;
+}
+::view-transition {
+  pointer-events: none;
+}
+
+/* Going deeper (balcony → room → a page): the new page opens from the middle like a door. */
+::view-transition-old(.door) {
+  animation: 260ms ease-in both vt-fade reverse;
+}
+::view-transition-new(.door) {
+  animation: 560ms cubic-bezier(0.7, 0, 0.2, 1) both vt-door;
+}
+/* Coming back: a plain crossfade, no direction to decode. */
+::view-transition-old(.back) {
+  animation: 200ms ease-in both vt-fade reverse;
+}
+::view-transition-new(.back) {
+  animation: 320ms ease-out 120ms both vt-fade;
+}
+/* Nhật walks from the balcony into the room: same character, one continuous move. */
+::view-transition-group(.walk) {
+  animation-duration: 700ms;
+  animation-timing-function: cubic-bezier(0.6, 0, 0.2, 1);
+}
+
+@keyframes vt-fade {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes vt-door {
+  from {
+    clip-path: inset(0 50% 0 50%);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(*),
+  ::view-transition-new(*),
+  ::view-transition-group(*) {
+    animation-duration: 0s !important;
+    animation-delay: 0s !important;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}

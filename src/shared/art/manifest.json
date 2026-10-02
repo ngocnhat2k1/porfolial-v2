@@ -1,0 +1,87 @@
+{
+  "char-desk": {
+    "src": "/art/char-desk.e7e6c32c.webp",
+    "w": 1400,
+    "h": 1322
+  },
+  "char-guitar": {
+    "src": "/art/char-guitar.05f37fda.webp",
+    "w": 935,
+    "h": 1400
+  },
+  "char-stand": {
+    "src": "/art/char-stand.21b9f45f.webp",
+    "w": 388,
+    "h": 1400
+  },
+  "char-wave": {
+    "src": "/art/char-wave.b79b9442.webp",
+    "w": 540,
+    "h": 1400
+  },
+  "char-window": {
+    "src": "/art/char-window.f5169784.webp",
+    "w": 1400,
+    "h": 1327
+  },
+  "obj-desk": {
+    "src": "/art/obj-desk.cf4422cc.webp",
+    "w": 1400,
+    "h": 1303
+  },
+  "obj-guitar": {
+    "src": "/art/obj-guitar.9d220d7e.webp",
+    "w": 532,
+    "h": 1400
+  },
+  "obj-mic": {
+    "src": "/art/obj-mic.0f3392fa.webp",
+    "w": 403,
+    "h": 1400
+  },
+  "obj-phone": {
+    "src": "/art/obj-phone.985dfc6d.webp",
+    "w": 648,
+    "h": 1398
+  },
+  "obj-pinboard": {
+    "src": "/art/obj-pinboard.94e0d2ed.webp",
+    "w": 1400,
+    "h": 1046
+  },
+  "obj-plant-left": {
+    "src": "/art/obj-plant-left.eda66f99.webp",
+    "w": 765,
+    "h": 1400
+  },
+  "obj-plant-right": {
+    "src": "/art/obj-plant-right.6689b99b.webp",
+    "w": 703,
+    "h": 1400
+  },
+  "obj-rug": {
+    "src": "/art/obj-rug.a43355e3.webp",
+    "w": 1400,
+    "h": 358
+  },
+  "obj-shelf": {
+    "src": "/art/obj-shelf.f996cac7.webp",
+    "w": 1400,
+    "h": 582
+  },
+  "obj-trophy": {
+    "src": "/art/obj-trophy.9f8b513b.webp",
+    "w": 943,
+    "h": 1400
+  },
+  "obj-window": {
+    "src": "/art/obj-window.21d7d2db.webp",
+    "w": 1389,
+    "h": 1400
+  },
+  "scene-city": {
+    "src": "/art/scene-city.372672f3.webp",
+    "w": 2400,
+    "h": 1350
+  }
+}
