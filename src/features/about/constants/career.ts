@@ -63,11 +63,11 @@ import type { SkillGroup } from '../types/skill';
 export const experience = [
   {
     company: 'The Mona (formerly MONA MEDIA)',
-    role: 'Frontend Technical Leader / Team Lead',
+    role: 'Senior Frontend Developer',
     period: '09/2023 – Present',
     points: [
-      'Lead a frontend team of 5+ people: task assignment, mentoring, code review and technical coaching.',
-      'Act as Tech Lead: define technical solutions and make stack and architecture decisions for each project.',
+      'Work with a frontend team of 5+ people: task breakdown, mentoring, code review and technical coaching.',
+      'Define technical solutions and make stack and architecture decisions for each project.',
       'Design and maintain frontend architecture for retail, e-commerce, ERP and e-learning platforms.',
       'Build reusable, scalable React and Next.js components using OOP, design patterns and SOLID principles.',
       'Optimise page load, rendering and API interaction to raise Lighthouse scores and SEO ranking.',
@@ -175,7 +175,7 @@ export const skills: SkillGroup[] = [
     ],
   },
   {
-    group: 'Leadership',
+    group: 'Teamwork',
     icon: Flag,
     tint: 'bg-butter',
     span: 2,

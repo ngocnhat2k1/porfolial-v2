@@ -38,7 +38,7 @@ export const clockLine = (time: string) => `It's ${time} here in Saigon.`;
 export const pinnedSkills = {
   'Next.js': 'Next.js runs every project on my monitor.',
   React: 'React every day: reusable, scalable components for the team.',
-  TypeScript: 'TypeScript on almost every project I lead.',
+  TypeScript: 'TypeScript on almost every project I work on.',
   Tailwind: 'Tailwind for fast, consistent UI. This site uses it too.',
   GSAP: 'GSAP for the transitions on Skillhub and Khanh Hung Academy.',
   GraphQL: 'GraphQL with Apollo on Cinestar, Bachlong and most of my stores.',

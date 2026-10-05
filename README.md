@@ -1,6 +1,6 @@
 # ngocnhat.info
 
-Portfolio of **Trần Ngọc Nhật**, Frontend Technical Leader in Ho Chi Minh City.
+Portfolio of **Trần Ngọc Nhật**, Senior Frontend Developer in Ho Chi Minh City.
 You land on a balcony over Saigon, walk into an illustrated room, and every object in it opens part of the portfolio: projects on the laptop, the résumé on the pinboard, a piano and a guitar that actually play.
 
 ## Stack

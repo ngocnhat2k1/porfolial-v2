@@ -20,7 +20,7 @@ export function Area({ left, top, width, height, children }: { left: number; top
 
 const code = [
   [['k', 'const '], ['v', 'nhat'], ['p', ' = {']],
-  [['p', '  role: '], ['s', "'FE Lead'"], ['p', ',']],
+  [['p', '  role: '], ['s', "'Senior FE'"], ['p', ',']],
   [['p', '  stack: ['], ['s', "'Next.js'"], ['p', ', '], ['s', "'TS'"], ['p', '],']],
   [['p', '}; '], ['f', 'ship'], ['p', '(nhat);']],
 ] as const;
